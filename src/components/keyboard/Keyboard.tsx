@@ -94,7 +94,7 @@ export const Keyboard = ({
       </Key>
         {[' '].map((key) => (
           <Key
-            width={100.0}
+            width={150.0}
             value={key}
             key={key}
             onClick={onClick}

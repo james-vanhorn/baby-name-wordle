@@ -247,22 +247,24 @@ function App() {
 
   return (
     <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div className="flex w-80 mx-auto items-center mb-8 mt-20">
-        <h1 className="text-xl ml-2.5 grow font-bold dark:text-white">
-          {GAME_TITLE}
-        </h1>
-        <InformationCircleIcon
-          className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
-          onClick={() => setIsInfoModalOpen(true)}
-        />
-        <ChartBarIcon
-          className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-          onClick={() => setIsStatsModalOpen(true)}
-        />
-        <CogIcon
-          className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-          onClick={() => setIsSettingsModalOpen(true)}
-        />
+      <div className="flex w-100 mx-0.5 mt-3 mb-8 text-center items-center">
+          <h1 className="text-xl grow font-bold dark:text-white">
+            {GAME_TITLE}
+          </h1>
+          <div className="flex justify-end">
+          <InformationCircleIcon
+            className="h-5 w-5 mr-2 cursor-pointer dark:stroke-white"
+            onClick={() => setIsInfoModalOpen(true)}
+          />
+          <ChartBarIcon
+            className="h-5 w-5 mr-3 cursor-pointer dark:stroke-white"
+            onClick={() => setIsStatsModalOpen(true)}
+          />
+          <CogIcon
+            className="h-5 w-5 mr-3 cursor-pointer dark:stroke-white"
+            onClick={() => setIsSettingsModalOpen(true)}
+          />
+          </div>
       </div>
       <Grid
         guesses={guesses}
@@ -270,13 +272,15 @@ function App() {
         isRevealing={isRevealing}
         currentRowClassName={currentRowClass}
       />
-      <Keyboard
-        onChar={onChar}
-        onDelete={onDelete}
-        onEnter={onEnter}
-        guesses={guesses}
-        isRevealing={isRevealing}
-      />
+      <div className="absolute inset-x-0 bottom-0">
+        <Keyboard
+          onChar={onChar}
+          onDelete={onDelete}
+          onEnter={onEnter}
+          guesses={guesses}
+          isRevealing={isRevealing}
+        />
+      </div>
       <InfoModal
         isOpen={isInfoModalOpen}
         handleClose={() => setIsInfoModalOpen(false)}

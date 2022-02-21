@@ -1,5 +1,4 @@
-export const GAME_TITLE = process.env.REACT_APP_GAME_NAME!
-
+export const GAME_TITLE = "Wordle: Baby VanHorn Edition"
 export const WIN_MESSAGES = ['Great Job! We hope you are as excited to meet Quinn Charlotte as we are!']
 export const GAME_COPIED_MESSAGE = 'Game copied to clipboard'
 export const NOT_ENOUGH_LETTERS_MESSAGE = 'Not enough letters'
