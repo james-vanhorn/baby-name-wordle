@@ -1,1 +1,4 @@
-export const WORDS = ['quinn charlotte', 'quinn', 'charlotte']
+export const WORDS = [
+  'quinn',
+  'charlotte'
+]

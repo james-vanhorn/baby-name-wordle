@@ -11,7 +11,7 @@ import { StatsModal } from './components/modals/StatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
 import {
   GAME_TITLE,
-  WIN_MESSAGES,
+  WIN_MESSAGE,
   GAME_COPIED_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
@@ -19,7 +19,6 @@ import {
   HARD_MODE_ALERT_MESSAGE,
 } from './constants/strings'
 import {
-  MAX_WORD_LENGTH,
   MAX_CHALLENGES,
   REVEAL_TIME_MS,
   GAME_LOST_INFO_DELAY,
@@ -149,9 +148,8 @@ function App() {
 
   useEffect(() => {
     if (isGameWon) {
-      const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
+      const winMessage =  WIN_MESSAGE
+      const delayMs = REVEAL_TIME_MS * solution.length
 
       showSuccessAlert(winMessage, {
         delayMs,
@@ -168,7 +166,7 @@ function App() {
 
   const onChar = (value: string) => {
     if (
-      unicodeLength(`${currentGuess}${value}`) <= MAX_WORD_LENGTH &&
+      unicodeLength(`${currentGuess}${value}`) <= solution.length &&
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
@@ -187,14 +185,14 @@ function App() {
       return
     }
 
-    if (!(unicodeLength(currentGuess) === MAX_WORD_LENGTH)) {
+    if (!(unicodeLength(currentGuess) === solution.length)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE, {
         onClose: clearCurrentRowClass,
       })
     }
 
-    if (!isWordInWordList(currentGuess)) {
+    if (!isWordInWordList(currentGuess, solution)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(WORD_NOT_FOUND_MESSAGE, {
         onClose: clearCurrentRowClass,
@@ -217,12 +215,12 @@ function App() {
     // chars have been revealed
     setTimeout(() => {
       setIsRevealing(false)
-    }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
+    }, REVEAL_TIME_MS * solution.length)
 
     const winningWord = isWinningWord(currentGuess)
 
     if (
-      unicodeLength(currentGuess) === MAX_WORD_LENGTH &&
+      unicodeLength(currentGuess) === solution.length &&
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
@@ -239,31 +237,31 @@ function App() {
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
           persist: true,
-          delayMs: REVEAL_TIME_MS * MAX_WORD_LENGTH + 1,
+          delayMs: REVEAL_TIME_MS * solution.length + 1,
         })
       }
     }
   }
 
   return (
-    <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div className="flex w-100 mx-0.5 mt-3 mb-8 text-center items-center">
-          <h1 className="text-xl grow font-bold dark:text-white">
+      <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div className="flex w-80 mx-auto items-center mb-8 mt-20">
+          <h1 className="text-base ml-2.5 grow font-bold dark:text-white">
             {GAME_TITLE}
           </h1>
           <div className="flex justify-end">
-          <InformationCircleIcon
-            className="h-5 w-5 mr-2 cursor-pointer dark:stroke-white"
-            onClick={() => setIsInfoModalOpen(true)}
-          />
-          <ChartBarIcon
-            className="h-5 w-5 mr-3 cursor-pointer dark:stroke-white"
-            onClick={() => setIsStatsModalOpen(true)}
-          />
-          <CogIcon
-            className="h-5 w-5 mr-3 cursor-pointer dark:stroke-white"
-            onClick={() => setIsSettingsModalOpen(true)}
-          />
+            <InformationCircleIcon
+              className="h-5 w-5 mr-2 cursor-pointer dark:stroke-white"
+              onClick={() => setIsInfoModalOpen(true)}
+            />
+            <ChartBarIcon
+              className="h-5 w-5 mr-3 cursor-pointer dark:stroke-white"
+              onClick={() => setIsStatsModalOpen(true)}
+            />
+            <CogIcon
+              className="h-5 w-5 mr-3 cursor-pointer dark:stroke-white"
+              onClick={() => setIsSettingsModalOpen(true)}
+            />
           </div>
       </div>
       <Grid
@@ -271,6 +269,7 @@ function App() {
         currentGuess={currentGuess}
         isRevealing={isRevealing}
         currentRowClassName={currentRowClass}
+        wordLength={solution.length}
       />
       <div className="absolute inset-x-0 bottom-0">
         <Keyboard
@@ -307,7 +306,6 @@ function App() {
         isHighContrastMode={isHighContrastMode}
         handleHighContrastMode={handleHighContrastMode}
       />
-
       <AlertContainer />
     </div>
   )

@@ -4,16 +4,11 @@ import { WRONG_SPOT_MESSAGE, NOT_CONTAINED_MESSAGE } from '../constants/strings'
 import { getGuessStatuses } from './statuses'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 
-export const isWordInWordList = (word: string) => {
-  var allMatched: boolean = true;
-  var names = word.split(' ')
-  for (var name of names) {
-      allMatched = WORDS.includes(localeAwareLowerCase(name)) || VALID_GUESSES.includes(localeAwareLowerCase(name))
-      if(!allMatched) {
-        break
-      }
-  }
-  return allMatched
+export const isWordInWordList = (word: string, answer: String) => {
+  return (
+    answer === (localeAwareLowerCase(word)) ||
+    VALID_GUESSES.includes(localeAwareLowerCase(word))
+  )
 }
 
 export const isWinningWord = (word: string) => {
@@ -84,7 +79,8 @@ export const getWordOfDay = () => {
   const msInDay = 86400000
   const index = Math.floor((now - epochMs) / msInDay)
   const nextday = (index + 1) * msInDay + epochMs
-
+  console.log("Index:" + index)
+  console.log("Index in WORDS:" + index % WORDS.length)
   return {
     solution: localeAwareUpperCase(WORDS[index % WORDS.length]),
     solutionIndex: index,

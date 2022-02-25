@@ -11,14 +11,9 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
     <BaseModal title="How to play" isOpen={isOpen} handleClose={handleClose}>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         Guess our daughter's name in 6 tries. After each guess, the color of the tiles will
-        change to show how close your guess was to the word.
+        change to show how close your guess was to the word. The dictionary of valid guesses is
+        a list of 5000+ names from all over the world. Good luck!
       </p>
-      <br/>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
-        Hint: The answer is her first and middle name, so there are 14 letters 1 space total.
-        The dictionary of valid guesses is a list of 5000+ names from all over the world. Good luck!
-      </p>
-
       <div className="flex justify-center mb-1 mt-4">
         <Cell
           isRevealing={true}

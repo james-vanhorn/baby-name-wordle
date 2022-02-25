@@ -1,7 +1,7 @@
 import { getStatuses } from '../../lib/statuses'
 import { Key } from './Key'
 import { useEffect } from 'react'
-import { ENTER_TEXT, DELETE_TEXT, SPACEBAR_TEXT } from '../../constants/strings'
+import { ENTER_TEXT, DELETE_TEXT } from '../../constants/strings'
 import { localeAwareUpperCase } from '../../lib/words'
 
 type Props = {
@@ -37,8 +37,6 @@ export const Keyboard = ({
         onEnter()
       } else if (e.code === 'Backspace') {
         onDelete()
-      } else if (e.key === ' ') {
-        onChar(' ')
       } else {
         const key = localeAwareUpperCase(e.key)
         // TODO: check this test if the range works with non-english letters
@@ -77,7 +75,10 @@ export const Keyboard = ({
           />
         ))}
       </div>
-      <div className="flex justify-center mb-1">
+      <div className="flex justify-center">
+        <Key width={65.4} value="ENTER" onClick={onClick}>
+          {ENTER_TEXT}
+        </Key>
         {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (
           <Key
             value={key}
@@ -86,21 +87,6 @@ export const Keyboard = ({
             status={charStatuses[key]}
             isRevealing={isRevealing}
           />
-        ))}
-      </div>
-      <div className="flex justify-center">
-      <Key width={65.4} value="ENTER" onClick={onClick}>
-        {ENTER_TEXT}
-      </Key>
-        {[' '].map((key) => (
-          <Key
-            width={150.0}
-            value={key}
-            key={key}
-            onClick={onClick}
-            status={charStatuses[key]}
-            isRevealing={isRevealing}
-          >{SPACEBAR_TEXT}</Key>
         ))}
         <Key width={65.4} value="DELETE" onClick={onClick}>
           {DELETE_TEXT}
